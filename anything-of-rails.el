@@ -1,5 +1,7 @@
 ;;; anything-of-rails.el --- minor mode with anything for editing RubyOnRails code
 
+;; refer to https://github.com/wolfmanjm/anything-on-rails.git
+
 ;; Copyright (C) 2011 Kazuya Yoshimi <kazuya dot yoshimi at gmail dot com>
 
 (require 'anything)

@@ -1,4 +1,4 @@
-;;; anything-of-rails.el --- minor mode with anything for editing RubyOnRails code
+;;; anything-of-rails.el --- anything for editing RubyOnRails code
 
 ;; refer to https://github.com/wolfmanjm/anything-on-rails.git
 

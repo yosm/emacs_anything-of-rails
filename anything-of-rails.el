@@ -8,16 +8,10 @@
 (require 'find-cmd)
 
 (eval-when-compile
+  (require 'rails)
   (require 'cl)
   (defvar recentf-list nil)
   (defvar rails-root nil))
-
-(defun current-buffer-rails-root ()
-  (let ((rails-project-root (locate-dominating-file default-directory "Gemfile")))
-    (when (and rails-project-root
-               (file-exists-p (concat rails-project-root "config/application.rb")))
-      (expand-file-name rails-project-root))))
-
 
 (defun rails-dirs (root dirs)
   (mapconcat (lambda (x) (if (file-directory-p x) x "" ))
@@ -77,14 +71,15 @@
 (defun controller-to-views (file)
   (replace-regexp-in-string "/controllers/\\(.*\\)_controller.rb" "/views/\\1" file))
 (defun controller-to-helper (file)
-  (replace-regexp-in-string "/controllers/\\(.*\\)_controller.rb" "/helpers/\\1_helper.rb" file))
+  (replace-regexp-in-string "controller" "helper" file))
 (defun file-to-spec (file)
   (replace-regexp-in-string "/app/\\(.*\\).rb" "/spec/\\1_spec.rb" file))
 (defun spec-to-file (file)
   (replace-regexp-in-string "/spec/\\(.*\\)_spec.rb" "/app/\\1.rb" file))
 (defun view-to-controller (file)
   (replace-regexp-in-string "/views/\\(.*\\)/.*.erb" "/controllers/\\1_controller.rb" file))
-
+(defun helper-to-controller (file)
+  (replace-regexp-in-string "helper" "controller" file))
 
 (defun rails-current-actions ()
   (with-current-buffer anything-current-buffer
@@ -99,6 +94,8 @@
              (add-to-list 'actions (cons "spec" (file-to-spec file))))
             ((equal type "views")
              (add-to-list 'actions (cons "controller" (view-to-controller file))))
+            ((equal type "helper")
+             (add-to-list 'actions (cons "controller" (helper-to-controller file))))
             ((equal type "spec-controllers")
              (add-to-list 'actions (cons "controller" (spec-to-file file))))
             ((equal type "spec-models")

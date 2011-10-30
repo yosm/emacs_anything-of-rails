@@ -1,0 +1,20 @@
+Anything of Rails
+==========
+
+################################################################################
+#                               !!! WARNING !!!                                #
+#                                                                              #
+#             This project is the first elisp programming for me.              #
+#       Therefore, efficiency, security, manners, etc. may not be right.       #
+#        I hope your help. review, refactoring, bugfix and expansion.          #
+#                                                                              #
+#         "Thank you very much for your patience. Have a nice trip!"           #
+################################################################################
+
+(require 'rails)
+
+
+on any rails project buffer
+
+  M-x anything-of-rails
+

@@ -19,6 +19,10 @@
                (file-exists-p (concat rails-project-root "config/application.rb")))
       (expand-file-name rails-project-root))))
 
+(defun current-method-name ()
+  (save-excursion
+    (when (search-backward-regexp "^[ ]*def \\([a-z0-9_]+\\)" nil t)
+      (match-string-no-properties 1))))
 
 (defun rails-dirs (root dirs)
   (mapconcat (lambda (x) (if (file-directory-p x) x "" ))
@@ -87,6 +91,9 @@
   (replace-regexp-in-string "/views/\\(.*\\)/.*.erb" "/controllers/\\1_controller.rb" file))
 (defun helper-to-controller (file)
   (replace-regexp-in-string "helper" "controller" file))
+(defun action-to-view (file method)
+  (replace-regexp-in-string "/controllers/\\(.*\\)_controller.rb" (concat "/views/\\1/" method ".html.erb") file))
+
 
 (defun rails-current-actions ()
   (with-current-buffer anything-current-buffer
@@ -96,7 +103,8 @@
       (cond ((equal type "controllers")
              (add-to-list 'actions (cons "helper" (controller-to-helper file)))
              (add-to-list 'actions (cons "views" (controller-to-views file)))
-             (add-to-list 'actions (cons "spec" (file-to-spec file))))
+             (add-to-list 'actions (cons "spec" (file-to-spec file)))
+             (add-to-list 'actions (cons "view" (action-to-view file (current-method-name)))))
             ((equal type "models")
              (add-to-list 'actions (cons "spec" (file-to-spec file))))
             ((equal type "views")

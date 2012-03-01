@@ -145,6 +145,6 @@
                            anything-c-source-rails-current-project-recentf
                            anything-c-source-rails-project-files)
                 :prompt "Anything Of Rails: "
-                :buffer "*anything-for-rails*"))))
+                :buffer "*anything-of-rails*"))))
 
 (provide 'anything-of-rails)

@@ -12,7 +12,6 @@
   (defvar recentf-list nil)
   (defvar rails-root nil))
 
-
 (defun current-buffer-rails-root ()
   (let ((rails-project-root (locate-dominating-file default-directory "Gemfile")))
     (when (and rails-project-root
@@ -59,7 +58,7 @@
      (shell-command-to-string
       (concat "find " (rails-dirs rails-root rails-project-directories)
               " "
-              (find-to-string `(or (name "*.rb" "*.erb" "*.js*" "*.css*" "*.yml"))))))))
+              (find-to-string `(or (name "*.rb" "*.erb" "*.js*" "*.css*" "*.yml" "*.coffee"))))))))
 
 (defun current-rails-recentf ()
   (when rails-root
@@ -140,10 +139,12 @@
 (defun anything-of-rails ()
   (interactive)
   (let ((rails-root (current-buffer-rails-root)))
-    (anything :sources '(anything-c-source-rails-current-actions
-                         anything-c-source-rails-current-project-recentf
-                         anything-c-source-rails-project-files)
-              :prompt "Anything Of Rails: "
-              :buffer "*anything-for-rails*")))
+    (message "%s" rails-root)
+    (when rails-root
+      (anything :sources '(anything-c-source-rails-current-actions
+                           anything-c-source-rails-current-project-recentf
+                           anything-c-source-rails-project-files)
+                :prompt "Anything Of Rails: "
+                :buffer "*anything-for-rails*"))))
 
 (provide 'anything-of-rails)

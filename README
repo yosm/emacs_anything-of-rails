@@ -1,19 +1,21 @@
 Anything of Rails
 
-################################################################################
-#                               !!! WARNING !!!                                #
-#                                                                              #
-#             This project is the first elisp programming for me.              #
-#       Therefore, efficiency, security, manners, etc. may not be right.       #
-#        I hope your help. review, refactoring, bugfix and expansion.          #
-#                                                                              #
-#         "Thank you very much for your patience. Have a nice trip!"           #
-################################################################################
+installation:
+  
+  (require 'rails)
 
-(require 'rails)
+require:
+ - anything
+ - find-cmd
 
-
+usage:
 on any rails project buffer
 
   M-x anything-of-rails
 
+or
+
+  default key assign "C-;"
+  if you want to use other key then you set 'anything-of-rails-boot-key before (require 'rails)
+
+  (defvar anything-of-rails-boot-key (kbd "C-;"))

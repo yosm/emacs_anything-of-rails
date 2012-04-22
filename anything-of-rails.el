@@ -34,14 +34,11 @@
      (cons
       (replace-regexp-in-string
        (concat "^" rails-root "\\(" (mapconcat 'identity dir "\\|") "\\)?/?")
-       (lambda (s) (if (> (length s) (length rails-root)) "\\1 : " "/"))
+       (lambda (s) (if (> (length s) (length rails-root)) "\\1 : " ""))
        f)
       f))
    path))
 
-
-(defvar rails-project-directories
-  (list "app" "config" "spec" "db" "lib"))
 
 (defvar omit-rails-project-directory-name
   (list
@@ -49,16 +46,17 @@
    "config"
    "db/migrate" "db"
    "spec/controllers" "spec/models" "spec/views" "spec/helpers" "spec"
-   "lib"))
-
+   "lib"
+   ))
 
 (defun rails-project-files ()
   (when rails-root
-    (split-string
-     (shell-command-to-string
-      (concat "find " (rails-dirs rails-root rails-project-directories)
-              " "
-              (find-to-string `(or (name "*.rb" "*.erb" "*.js*" "*.css*" "*.yml" "*.coffee"))))))))
+    (let ((default-directory (replace-regexp-in-string "/$" "" rails-root)))
+      (split-string
+       (shell-command-to-string
+        (find-cmd '(prune (name "vendor" "log" "tmp" ".git")) '(and (or (name "*.rb" "*.erb" "*.js*" "*.css*" "*.yml" "*.coffee" "*.scss"))))))
+      )))
+
 
 (defun current-rails-recentf ()
   (when rails-root
@@ -127,7 +125,7 @@
 (defvar anything-c-source-rails-current-project-recentf
   '((name . "Recentf")
     (candidates . current-rails-recentf)
-    (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands)))
+    (candidate-transformer . (lambda (cands) (rails-c-make-displayable-names cands omit-rails-project-directory-name)))
     (type . file)))
 
 (defvar anything-c-source-rails-current-actions
